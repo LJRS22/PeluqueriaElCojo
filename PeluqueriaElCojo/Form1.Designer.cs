@@ -15,175 +15,120 @@
 
         private void InitializeComponent()
         {
-            this.txtNombre = new System.Windows.Forms.TextBox();
-            this.txtTelefono = new System.Windows.Forms.TextBox();
-            this.txtRecibo = new System.Windows.Forms.TextBox();
-            this.btnAgregarCliente = new System.Windows.Forms.Button();
-            this.btnCobrar = new System.Windows.Forms.Button();
-            this.lstClientes = new System.Windows.Forms.ListBox();
-            this.chkCorteNormal = new System.Windows.Forms.CheckBox();
-            this.chkDegradado = new System.Windows.Forms.CheckBox();
-            this.chkAfeitado = new System.Windows.Forms.CheckBox();
-            this.chkToalla = new System.Windows.Forms.CheckBox();
-            this.chkCejas = new System.Windows.Forms.CheckBox();
-            this.numNivel = new System.Windows.Forms.NumericUpDown();
-            this.lblTotal = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.numNivel)).BeginInit();
+            this.lblTitulo = new System.Windows.Forms.Label();
+            this.lblSubtitulo = new System.Windows.Forms.Label();
+            this.btnClientes = new System.Windows.Forms.Button();
+            this.btnEmpleados = new System.Windows.Forms.Button();
+            this.btnInventario = new System.Windows.Forms.Button();
+            this.btnFacturacion = new System.Windows.Forms.Button();
+            this.lblVersion = new System.Windows.Forms.Label();
             this.SuspendLayout();
-            // txtNombre
-            this.txtNombre.Location = new System.Drawing.Point(30, 99);
-            this.txtNombre.Name = "txtNombre";
-            this.txtNombre.Size = new System.Drawing.Size(180, 22);
-            this.txtNombre.TabIndex = 0;
-            this.txtNombre.TextChanged += new System.EventHandler(this.txtNombre_TextChanged);
-            // txtTelefono
-            this.txtTelefono.Location = new System.Drawing.Point(30, 175);
-            this.txtTelefono.Name = "txtTelefono";
-            this.txtTelefono.Size = new System.Drawing.Size(180, 22);
-            this.txtTelefono.TabIndex = 1;
-            // txtRecibo
-            this.txtRecibo.Font = new System.Drawing.Font("Consolas", 10F);
-            this.txtRecibo.Location = new System.Drawing.Point(525, 12);
-            this.txtRecibo.Multiline = true;
-            this.txtRecibo.Name = "txtRecibo";
-            this.txtRecibo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtRecibo.Size = new System.Drawing.Size(384, 432);
-            this.txtRecibo.TabIndex = 11;
-            this.txtRecibo.TextChanged += new System.EventHandler(this.txtRecibo_TextChanged);
-            // btnAgregarCliente
-            this.btnAgregarCliente.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.btnAgregarCliente.ForeColor = System.Drawing.Color.FromArgb(0, 192, 0);
-            this.btnAgregarCliente.Location = new System.Drawing.Point(245, 116);
-            this.btnAgregarCliente.Name = "btnAgregarCliente";
-            this.btnAgregarCliente.Size = new System.Drawing.Size(120, 31);
-            this.btnAgregarCliente.TabIndex = 2;
-            this.btnAgregarCliente.Text = "Agregar";
-            this.btnAgregarCliente.UseVisualStyleBackColor = true;
-            this.btnAgregarCliente.Click += new System.EventHandler(this.btnAgregarCliente_Click);
-            // btnCobrar
-            this.btnCobrar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
-            this.btnCobrar.ForeColor = System.Drawing.Color.FromArgb(0, 192, 0);
-            this.btnCobrar.Location = new System.Drawing.Point(280, 349);
-            this.btnCobrar.Name = "btnCobrar";
-            this.btnCobrar.Size = new System.Drawing.Size(200, 35);
-            this.btnCobrar.TabIndex = 10;
-            this.btnCobrar.Text = "COBRAR";
-            this.btnCobrar.UseVisualStyleBackColor = true;
-            this.btnCobrar.Click += new System.EventHandler(this.btnCobrar_Click);
-            // lstClientes
-            this.lstClientes.ItemHeight = 16;
-            this.lstClientes.Location = new System.Drawing.Point(12, 217);
-            this.lstClientes.Name = "lstClientes";
-            this.lstClientes.Size = new System.Drawing.Size(240, 148);
-            this.lstClientes.TabIndex = 3;
-            this.lstClientes.SelectedIndexChanged += new System.EventHandler(this.lstClientes_SelectedIndexChanged);
-            // chkCorteNormal
-            this.chkCorteNormal.Location = new System.Drawing.Point(280, 217);
-            this.chkCorteNormal.Name = "chkCorteNormal";
-            this.chkCorteNormal.Size = new System.Drawing.Size(200, 24);
-            this.chkCorteNormal.TabIndex = 4;
-            this.chkCorteNormal.Text = "Corte Normal (RD$500)";
-            // chkDegradado
-            this.chkDegradado.Location = new System.Drawing.Point(280, 247);
-            this.chkDegradado.Name = "chkDegradado";
-            this.chkDegradado.Size = new System.Drawing.Size(104, 24);
-            this.chkDegradado.TabIndex = 5;
-            this.chkDegradado.Text = "Degradado";
-            // chkAfeitado
-            this.chkAfeitado.Location = new System.Drawing.Point(280, 277);
-            this.chkAfeitado.Name = "chkAfeitado";
-            this.chkAfeitado.Size = new System.Drawing.Size(200, 24);
-            this.chkAfeitado.TabIndex = 7;
-            this.chkAfeitado.Text = "Afeitado (RD$150)";
-            this.chkAfeitado.CheckedChanged += new System.EventHandler(this.chkAfeitado_CheckedChanged);
-            // chkToalla
-            this.chkToalla.Location = new System.Drawing.Point(390, 277);
-            this.chkToalla.Name = "chkToalla";
-            this.chkToalla.Size = new System.Drawing.Size(130, 24);
-            this.chkToalla.TabIndex = 8;
-            this.chkToalla.Text = "+ Toalla (+RD$50)";
-            // chkCejas
-            this.chkCejas.Location = new System.Drawing.Point(280, 307);
-            this.chkCejas.Name = "chkCejas";
-            this.chkCejas.Size = new System.Drawing.Size(150, 24);
-            this.chkCejas.TabIndex = 9;
-            this.chkCejas.Text = "Cejas (RD$75)";
-            this.chkCejas.CheckedChanged += new System.EventHandler(this.chkCejas_CheckedChanged);
-            // numNivel
-            this.numNivel.Location = new System.Drawing.Point(390, 247);
-            this.numNivel.Maximum = new decimal(new int[] { 5, 0, 0, 0 });
-            this.numNivel.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            this.numNivel.Name = "numNivel";
-            this.numNivel.Size = new System.Drawing.Size(120, 22);
-            this.numNivel.TabIndex = 6;
-            this.numNivel.Value = new decimal(new int[] { 1, 0, 0, 0 });
-            // lblTotal
-            this.lblTotal.Location = new System.Drawing.Point(12, 382);
-            this.lblTotal.Name = "lblTotal";
-            this.lblTotal.Size = new System.Drawing.Size(240, 25);
-            this.lblTotal.TabIndex = 12;
-            this.lblTotal.Text = "TOTAL: RD$0";
-            // label1
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label1.ForeColor = System.Drawing.Color.Red;
-            this.label1.Location = new System.Drawing.Point(26, 53);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(104, 32);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Nombre:";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
-            // label2
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label2.ForeColor = System.Drawing.Color.Red;
-            this.label2.Location = new System.Drawing.Point(26, 135);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(89, 37);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Telefono:";
+            // 
+            // lblTitulo
+            // 
+            this.lblTitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold);
+            this.lblTitulo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(0)))));
+            this.lblTitulo.Location = new System.Drawing.Point(50, 40);
+            this.lblTitulo.Name = "lblTitulo";
+            this.lblTitulo.Size = new System.Drawing.Size(600, 50);
+            this.lblTitulo.TabIndex = 0;
+            this.lblTitulo.Text = "Peluqueria El Cojo";
+            this.lblTitulo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblSubtitulo
+            // 
+            this.lblSubtitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.lblSubtitulo.ForeColor = System.Drawing.Color.Gray;
+            this.lblSubtitulo.Location = new System.Drawing.Point(50, 90);
+            this.lblSubtitulo.Name = "lblSubtitulo";
+            this.lblSubtitulo.Size = new System.Drawing.Size(600, 30);
+            this.lblSubtitulo.TabIndex = 0;
+            this.lblSubtitulo.Text = "Villa Mella, Santo Domingo";
+            this.lblSubtitulo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btnClientes
+            // 
+            this.btnClientes.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+            this.btnClientes.Location = new System.Drawing.Point(150, 160);
+            this.btnClientes.Name = "btnClientes";
+            this.btnClientes.Size = new System.Drawing.Size(300, 60);
+            this.btnClientes.TabIndex = 1;
+            this.btnClientes.Text = "Clientes";
+            this.btnClientes.UseVisualStyleBackColor = true;
+            this.btnClientes.Click += new System.EventHandler(this.btnClientes_Click);
+            // 
+            // btnEmpleados
+            // 
+            this.btnEmpleados.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+            this.btnEmpleados.Location = new System.Drawing.Point(150, 240);
+            this.btnEmpleados.Name = "btnEmpleados";
+            this.btnEmpleados.Size = new System.Drawing.Size(300, 60);
+            this.btnEmpleados.TabIndex = 2;
+            this.btnEmpleados.Text = "Empleados";
+            this.btnEmpleados.UseVisualStyleBackColor = true;
+            this.btnEmpleados.Click += new System.EventHandler(this.btnEmpleados_Click);
+            // 
+            // btnInventario
+            // 
+            this.btnInventario.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+            this.btnInventario.Location = new System.Drawing.Point(150, 320);
+            this.btnInventario.Name = "btnInventario";
+            this.btnInventario.Size = new System.Drawing.Size(300, 60);
+            this.btnInventario.TabIndex = 3;
+            this.btnInventario.Text = "Inventario";
+            this.btnInventario.UseVisualStyleBackColor = true;
+            this.btnInventario.Click += new System.EventHandler(this.btnInventario_Click);
+            // 
+            // btnFacturacion
+            // 
+            this.btnFacturacion.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+            this.btnFacturacion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(140)))), ((int)(((byte)(0)))));
+            this.btnFacturacion.Location = new System.Drawing.Point(150, 400);
+            this.btnFacturacion.Name = "btnFacturacion";
+            this.btnFacturacion.Size = new System.Drawing.Size(300, 60);
+            this.btnFacturacion.TabIndex = 4;
+            this.btnFacturacion.Text = "Facturacion";
+            this.btnFacturacion.UseVisualStyleBackColor = true;
+            this.btnFacturacion.Click += new System.EventHandler(this.btnFacturacion_Click);
+            // 
+            // lblVersion
+            // 
+            this.lblVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
+            this.lblVersion.ForeColor = System.Drawing.Color.Gray;
+            this.lblVersion.Location = new System.Drawing.Point(50, 490);
+            this.lblVersion.Name = "lblVersion";
+            this.lblVersion.Size = new System.Drawing.Size(600, 20);
+            this.lblVersion.TabIndex = 0;
+            this.lblVersion.Text = "ISW-123 Programacion Media - Universidad Central del Este";
+            this.lblVersion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // Form1
+            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(932, 457);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.txtNombre);
-            this.Controls.Add(this.txtTelefono);
-            this.Controls.Add(this.btnAgregarCliente);
-            this.Controls.Add(this.lstClientes);
-            this.Controls.Add(this.chkCorteNormal);
-            this.Controls.Add(this.chkDegradado);
-            this.Controls.Add(this.numNivel);
-            this.Controls.Add(this.chkAfeitado);
-            this.Controls.Add(this.chkToalla);
-            this.Controls.Add(this.chkCejas);
-            this.Controls.Add(this.btnCobrar);
-            this.Controls.Add(this.txtRecibo);
-            this.Controls.Add(this.lblTotal);
+            this.ClientSize = new System.Drawing.Size(652, 530);
+            this.Controls.Add(this.lblTitulo);
+            this.Controls.Add(this.lblSubtitulo);
+            this.Controls.Add(this.btnClientes);
+            this.Controls.Add(this.btnEmpleados);
+            this.Controls.Add(this.btnInventario);
+            this.Controls.Add(this.btnFacturacion);
+            this.Controls.Add(this.lblVersion);
             this.Name = "Form1";
-            this.Text = "Peluquería El Cojo";
-            ((System.ComponentModel.ISupportInitialize)(this.numNivel)).EndInit();
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Peluqueria El Cojo - Menu Principal";
             this.ResumeLayout(false);
-            this.PerformLayout();
+
         }
 
         #endregion
 
-        private System.Windows.Forms.TextBox txtNombre;
-        private System.Windows.Forms.TextBox txtTelefono;
-        private System.Windows.Forms.TextBox txtRecibo;
-        private System.Windows.Forms.Button btnAgregarCliente;
-        private System.Windows.Forms.Button btnCobrar;
-        private System.Windows.Forms.ListBox lstClientes;
-        private System.Windows.Forms.CheckBox chkCorteNormal;
-        private System.Windows.Forms.CheckBox chkDegradado;
-        private System.Windows.Forms.CheckBox chkAfeitado;
-        private System.Windows.Forms.CheckBox chkToalla;
-        private System.Windows.Forms.CheckBox chkCejas;
-        private System.Windows.Forms.NumericUpDown numNivel;
-        private System.Windows.Forms.Label lblTotal;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblTitulo;
+        private System.Windows.Forms.Label lblSubtitulo;
+        private System.Windows.Forms.Button btnClientes;
+        private System.Windows.Forms.Button btnEmpleados;
+        private System.Windows.Forms.Button btnInventario;
+        private System.Windows.Forms.Button btnFacturacion;
+        private System.Windows.Forms.Label lblVersion;
     }
 }
