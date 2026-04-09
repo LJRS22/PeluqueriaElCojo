@@ -67,6 +67,7 @@
     <Compile Include="Modelos\Empleado.cs" />
     <Compile Include="Modelos\EstadoCita.cs" />
     <Compile Include="Modelos\IFacturable.cs" />
+    <Compile Include="Modelos\Producto.cs" />
     <Compile Include="Modelos\RolEmpleado.cs" />
     <Compile Include="Modelos\Servicio.cs" />
     <Compile Include="Modelos\TipoCliente.cs" />
