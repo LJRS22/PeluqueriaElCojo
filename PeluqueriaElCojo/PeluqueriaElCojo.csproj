@@ -59,6 +59,7 @@
     </Compile>
     <Compile Include="Modelos\Afeitado.cs" />
     <Compile Include="Modelos\CategoriaProducto.cs" />
+    <Compile Include="Modelos\Cita.cs" />
     <Compile Include="Modelos\Cliente.cs" />
     <Compile Include="Modelos\ComboCompleto.cs" />
     <Compile Include="Modelos\CorteCejas.cs" />
