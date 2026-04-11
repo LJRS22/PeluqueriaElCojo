@@ -51,6 +51,10 @@
     <Compile Include="Atributos\RequeridoAttribute.cs" />
     <Compile Include="Atributos\TelefonoDominicanoAttribute.cs" />
     <Compile Include="Atributos\ValidacionAttribute.cs" />
+    <Compile Include="Datos\ClienteRepository.cs" />
+    <Compile Include="Datos\Conexion.cs" />
+    <Compile Include="Datos\EmpleadoRepository.cs" />
+    <Compile Include="Datos\ProductoRepository.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -8,7 +8,6 @@ namespace PeluqueriaElCojo
 {
     public partial class FormFacturacion : Form
     {
-        // Lista de servicios seleccionados para la factura actual
         private List<Servicio> _serviciosActuales = new List<Servicio>();
 
         public FormFacturacion()
@@ -23,7 +22,6 @@ namespace PeluqueriaElCojo
             cmbCliente.Items.Clear();
             foreach (Cliente c in Form1.Clientes)
                 cmbCliente.Items.Add(c);
-
             if (cmbCliente.Items.Count > 0)
                 cmbCliente.SelectedIndex = 0;
         }
@@ -36,14 +34,12 @@ namespace PeluqueriaElCojo
                 if (e.Rol == RolEmpleado.Barbero && e.Activo)
                     cmbEmpleado.Items.Add(e);
             }
-
             if (cmbEmpleado.Items.Count > 0)
                 cmbEmpleado.SelectedIndex = 0;
         }
 
         private void btnCobrar_Click(object sender, EventArgs e)
         {
-            // Verificamos que haya cliente y barbero seleccionados
             if (cmbCliente.SelectedItem == null)
             {
                 MessageBox.Show("Selecciona un cliente.", "Aviso",
@@ -58,8 +54,7 @@ namespace PeluqueriaElCojo
                 return;
             }
 
-            // Construimos la lista de servicios usando polimorfismo
-            // cada objeto es de un tipo diferente pero todos son Servicio
+            // Construimos lista de servicios usando polimorfismo
             _serviciosActuales.Clear();
 
             if (chkCorteNormal.Checked)
@@ -83,18 +78,19 @@ namespace PeluqueriaElCojo
             Cliente cliente = cmbCliente.SelectedItem as Cliente;
             Empleado barbero = cmbEmpleado.SelectedItem as Empleado;
 
-            // Registramos la visita del cliente
-            cliente.RegistrarVisita();
-
-            // Calculamos el total de ventas para el barbero
+            // Calcula el subtotal de los servicios
             decimal subtotal = 0;
             foreach (Servicio s in _serviciosActuales)
                 subtotal += s.CalcularPrecio();
 
-            // Actualizamos las ventas del barbero del mes
-            barbero.VentasMes += subtotal;
+            // Registra la visita del cliente y actualiza en BD
+            cliente.RegistrarVisita();
+            Form1.ActualizarCliente(cliente);
 
-            // Generamos y mostramos el recibo
+            // Actualiza las ventas del barbero en BD
+            Form1.ActualizarVentasEmpleado(barbero.Id, subtotal);
+
+            // Genera el recibo y muestra el total
             txtRecibo.Text = GenerarRecibo(cliente, barbero);
             lblTotal.Text = string.Format("TOTAL: RD${0:N2}", CalcularTotal(cliente));
         }
@@ -102,7 +98,6 @@ namespace PeluqueriaElCojo
         private decimal CalcularTotal(Cliente cliente)
         {
             decimal subtotal = 0;
-
             // POLIMORFISMO: cada servicio calcula su propio precio
             foreach (Servicio s in _serviciosActuales)
                 subtotal += s.CalcularPrecio();
@@ -125,7 +120,6 @@ namespace PeluqueriaElCojo
             sb.AppendLine("╠═══════════════════════════════════╣");
 
             decimal subtotal = 0;
-
             // POLIMORFISMO: cada servicio genera su propia linea
             foreach (Servicio s in _serviciosActuales)
             {

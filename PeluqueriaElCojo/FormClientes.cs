@@ -1,10 +1,9 @@
-﻿using PeluqueriaElCojo.Modelos;
-using PeluqueriaElCojo.Utilidades;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Text;
 using System.Windows.Forms;
+using PeluqueriaElCojo.Modelos;
+using PeluqueriaElCojo.Utilidades;
 
 namespace PeluqueriaElCojo
 {
@@ -37,11 +36,12 @@ namespace PeluqueriaElCojo
                     return;
                 }
 
-                Form1.Clientes.Add(nuevo);
+                // Guarda en base de datos y recarga la lista
+                int id = Form1.GuardarCliente(nuevo);
                 ActualizarLista();
                 txtNombre.Text = "";
                 txtTelefono.Text = "";
-                MessageBox.Show("Cliente agregado correctamente.", "Exito",
+                MessageBox.Show("Cliente guardado con ID: " + id, "Exito",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (ArgumentException ex)
@@ -54,7 +54,6 @@ namespace PeluqueriaElCojo
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             string termino = txtBuscar.Text.ToLower().Trim();
-
             if (string.IsNullOrEmpty(termino))
             {
                 ActualizarLista();
@@ -64,12 +63,9 @@ namespace PeluqueriaElCojo
             lstClientes.Items.Clear();
             foreach (Cliente c in Form1.Clientes)
             {
-                // Busca por nombre o telefono
                 if (c.Nombre.ToLower().Contains(termino) ||
                     c.Telefono.Contains(termino))
-                {
                     lstClientes.Items.Add(c);
-                }
             }
 
             if (lstClientes.Items.Count == 0)

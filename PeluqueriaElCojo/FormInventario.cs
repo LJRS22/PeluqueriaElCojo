@@ -34,9 +34,8 @@ namespace PeluqueriaElCojo
                 nuevo.Stock = (int)numStock.Value;
                 nuevo.StockMinimo = (int)numStockMin.Value;
 
-                // IEquatable en accion: Contains usa el Equals que definimos
-                // compara por codigo sin importar mayusculas
-                if (Form1.Productos.Contains(nuevo))
+                // Verifica duplicados en la base de datos
+                if (Form1.ExisteCodigoProducto(nuevo.Codigo))
                 {
                     MessageBox.Show(
                         string.Format("Ya existe un producto con el codigo {0}.", nuevo.Codigo),
@@ -44,7 +43,6 @@ namespace PeluqueriaElCojo
                     return;
                 }
 
-                // Validamos con Reflection automaticamente
                 ResultadoValidacion resultado = Validador.Validar(nuevo);
                 if (!resultado.EsValido)
                 {
@@ -53,10 +51,11 @@ namespace PeluqueriaElCojo
                     return;
                 }
 
-                Form1.Productos.Add(nuevo);
+                // Guarda en base de datos y recarga la lista
+                int id = Form1.GuardarProducto(nuevo);
                 ActualizarLista();
                 LimpiarCampos();
-                MessageBox.Show("Producto agregado correctamente.", "Exito",
+                MessageBox.Show("Producto guardado con ID: " + id, "Exito",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
@@ -68,7 +67,6 @@ namespace PeluqueriaElCojo
 
         private void btnAlertaStock_Click(object sender, EventArgs e)
         {
-            // Genera reporte de productos con stock bajo
             string reporte = GeneradorReportes.GenerarAlertaStock(Form1.Productos);
             txtReporte.Text = reporte;
         }
@@ -105,7 +103,6 @@ namespace PeluqueriaElCojo
 
         private void btnTodos_Click(object sender, EventArgs e)
         {
-            // Usa Reflection para generar tabla con cualquier lista
             string reporte = GeneradorReportes.GenerarTabla(Form1.Productos, "INVENTARIO COMPLETO");
             txtReporte.Text = reporte;
         }

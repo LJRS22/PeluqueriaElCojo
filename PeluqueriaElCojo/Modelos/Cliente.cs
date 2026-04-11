@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using PeluqueriaElCojo.Atributos;
 
 namespace PeluqueriaElCojo.Modelos
 {
@@ -13,7 +10,8 @@ namespace PeluqueriaElCojo.Modelos
         private int _visitas;
         private static int _contadorId = 0;
 
-        public int Id { get; private set; }
+        // Id ahora tiene set publico para que Reflection pueda asignarlo
+        public int Id { get; set; }
 
         public string Nombre
         {
@@ -22,7 +20,6 @@ namespace PeluqueriaElCojo.Modelos
             {
                 if (string.IsNullOrWhiteSpace(value))
                     throw new ArgumentException("Nombre requerido");
-
                 _nombre = value.Trim();
             }
         }
@@ -33,19 +30,19 @@ namespace PeluqueriaElCojo.Modelos
             set
             {
                 string limpio = value.Replace("-", "").Replace(" ", "");
-
                 if (limpio.Length != 10)
-                    throw new ArgumentException("10 dígitos");
-
+                    throw new ArgumentException("10 digitos requeridos");
                 _telefono = limpio;
             }
         }
 
         public TipoCliente Tipo { get; set; }
 
+        // Visitas ahora tiene set publico para que Reflection pueda asignarlo
         public int Visitas
         {
             get { return _visitas; }
+            set { _visitas = value; }
         }
 
         public Cliente(string nombre, string telefono)
@@ -60,7 +57,6 @@ namespace PeluqueriaElCojo.Modelos
         public void RegistrarVisita()
         {
             _visitas++;
-
             if (_visitas >= 10)
                 Tipo = TipoCliente.VIP;
             else if (_visitas >= 3)
@@ -90,4 +86,3 @@ namespace PeluqueriaElCojo.Modelos
         }
     }
 }
-

@@ -34,7 +34,6 @@ namespace PeluqueriaElCojo
                 nuevo.SalarioBase = (decimal)numSalario.Value;
                 nuevo.PorcentajeComision = (decimal)numComision.Value;
 
-                // Validamos con Reflection automaticamente
                 ResultadoValidacion resultado = Validador.Validar(nuevo);
                 if (!resultado.EsValido)
                 {
@@ -43,10 +42,11 @@ namespace PeluqueriaElCojo
                     return;
                 }
 
-                Form1.Empleados.Add(nuevo);
+                // Guarda en base de datos y recarga la lista
+                int id = Form1.GuardarEmpleado(nuevo);
                 ActualizarLista();
                 LimpiarCampos();
-                MessageBox.Show("Empleado agregado correctamente.", "Exito",
+                MessageBox.Show("Empleado guardado con ID: " + id, "Exito",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
@@ -58,7 +58,7 @@ namespace PeluqueriaElCojo
 
         private void btnRanking_Click(object sender, EventArgs e)
         {
-            // Usamos el GeneradorReportes que usa IComparable internamente
+            // Usa IComparable para ordenar y GeneradorReportes para formatear
             string ranking = GeneradorReportes.GenerarRankingEmpleados(Form1.Empleados);
             txtReporte.Text = ranking;
         }
@@ -103,7 +103,7 @@ namespace PeluqueriaElCojo
                 return;
             }
 
-            // ICloneable en accion: duplicamos la configuracion del empleado
+            // ICloneable en accion: duplicamos configuracion del empleado
             Empleado copia = (Empleado)emp.Clone();
             Form1.Empleados.Add(copia);
             ActualizarLista();
