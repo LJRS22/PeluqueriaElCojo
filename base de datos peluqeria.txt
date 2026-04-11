@@ -1,0 +1,102 @@
+USE master;
+GO
+
+IF EXISTS (SELECT name FROM sys.databases WHERE name = 'PeluqueriaElCojo')
+BEGIN
+    ALTER DATABASE PeluqueriaElCojo SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+    DROP DATABASE PeluqueriaElCojo;
+END
+GO
+
+CREATE DATABASE PeluqueriaElCojo;
+GO
+
+USE PeluqueriaElCojo;
+GO
+
+CREATE TABLE Clientes (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre NVARCHAR(50) NOT NULL,
+    Telefono VARCHAR(10) NOT NULL,
+    Tipo INT NOT NULL DEFAULT 0,
+    Visitas INT NOT NULL DEFAULT 0,
+    FechaRegistro DATETIME NOT NULL DEFAULT GETDATE(),
+    Activo BIT NOT NULL DEFAULT 1
+);
+GO
+
+CREATE TABLE Empleados (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre NVARCHAR(50) NOT NULL,
+    Apodo NVARCHAR(20) NULL,
+    Cedula VARCHAR(13) NOT NULL UNIQUE,
+    Telefono VARCHAR(10) NULL,
+    Rol INT NOT NULL DEFAULT 0,
+    SalarioBase DECIMAL(10,2) NOT NULL DEFAULT 20000,
+    PorcentajeComision DECIMAL(5,2) NOT NULL DEFAULT 10,
+    FechaIngreso DATETIME NOT NULL DEFAULT GETDATE(),
+    VentasMes DECIMAL(12,2) NOT NULL DEFAULT 0,
+    Activo BIT NOT NULL DEFAULT 1
+);
+GO
+
+CREATE TABLE Productos (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Codigo VARCHAR(20) NOT NULL UNIQUE,
+    Nombre NVARCHAR(50) NOT NULL,
+    Categoria INT NOT NULL DEFAULT 6,
+    Precio DECIMAL(10,2) NOT NULL,
+    Costo DECIMAL(10,2) NOT NULL,
+    Stock INT NOT NULL DEFAULT 0,
+    StockMinimo INT NOT NULL DEFAULT 5,
+    Activo BIT NOT NULL DEFAULT 1
+);
+GO
+
+CREATE TABLE Servicios (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre NVARCHAR(50) NOT NULL,
+    PrecioBase DECIMAL(10,2) NOT NULL,
+    DuracionMinutos INT NOT NULL DEFAULT 20,
+    Activo BIT NOT NULL DEFAULT 1
+);
+GO
+
+CREATE TABLE Facturas (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Fecha DATETIME NOT NULL DEFAULT GETDATE(),
+    ClienteId INT NOT NULL FOREIGN KEY REFERENCES Clientes(Id),
+    EmpleadoId INT NOT NULL FOREIGN KEY REFERENCES Empleados(Id),
+    Subtotal DECIMAL(12,2) NOT NULL,
+    Descuento DECIMAL(12,2) NOT NULL DEFAULT 0,
+    ITBIS DECIMAL(12,2) NOT NULL,
+    Total DECIMAL(12,2) NOT NULL
+);
+GO
+
+INSERT INTO Servicios (Nombre, PrecioBase, DuracionMinutos) VALUES
+('Corte Normal', 500, 20),
+('Degradado Nivel 1', 300, 30),
+('Degradado Nivel 2', 350, 35),
+('Degradado Nivel 3', 400, 40),
+('Afeitado', 150, 15),
+('Afeitado + Toalla', 200, 20),
+('Corte de Cejas', 75, 10);
+
+INSERT INTO Empleados (Nombre, Apodo, Cedula, Telefono, Rol, SalarioBase, PorcentajeComision, VentasMes) VALUES
+('Rafael Martinez', 'El Cojo', '00112345678', '8095551234', 0, 25000, 15, 45000),
+('Juan Perez', 'Juancho', '00176543210', '8295554321', 0, 20000, 10, 32000),
+('Maria Garcia', NULL, '00198765432', '8495559876', 1, 18000, 0, 0);
+
+INSERT INTO Clientes (Nombre, Telefono, Tipo, Visitas) VALUES
+('Pedro Sanchez', '8095551111', 2, 25),
+('Luis Rodriguez', '8295552222', 1, 8),
+('Ana Martinez', '8495553333', 0, 1);
+
+INSERT INTO Productos (Codigo, Nombre, Categoria, Precio, Costo, Stock, StockMinimo) VALUES
+('GEL001', 'Gel Fijador Fuerte', 0, 150, 80, 25, 5),
+('GEL002', 'Cera Moldeadora', 0, 200, 100, 3, 5),
+('SHA001', 'Shampoo Anticaspa', 1, 180, 90, 15, 5),
+('ACE001', 'Aceite para Barba', 2, 350, 180, 8, 3);
+
+PRINT 'Base de datos creada con datos de prueba';
