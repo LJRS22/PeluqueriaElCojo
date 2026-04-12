@@ -14,6 +14,10 @@ GO
 USE PeluqueriaElCojo;
 GO
 
+-- ═══════════════════════════════════════════════
+-- TABLAS
+-- ═══════════════════════════════════════════════
+
 CREATE TABLE Clientes (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     Nombre NVARCHAR(50) NOT NULL,
@@ -74,6 +78,19 @@ CREATE TABLE Facturas (
 );
 GO
 
+CREATE TABLE Usuarios (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Usuario NVARCHAR(50) NOT NULL UNIQUE,
+    Contrasena NVARCHAR(50) NOT NULL,
+    Rol INT NOT NULL DEFAULT 1,
+    Activo BIT NOT NULL DEFAULT 1
+);
+GO
+
+-- ═══════════════════════════════════════════════
+-- DATOS DE PRUEBA
+-- ═══════════════════════════════════════════════
+
 INSERT INTO Servicios (Nombre, PrecioBase, DuracionMinutos) VALUES
 ('Corte Normal', 500, 20),
 ('Degradado Nivel 1', 300, 30),
@@ -82,21 +99,45 @@ INSERT INTO Servicios (Nombre, PrecioBase, DuracionMinutos) VALUES
 ('Afeitado', 150, 15),
 ('Afeitado + Toalla', 200, 20),
 ('Corte de Cejas', 75, 10);
+GO
 
 INSERT INTO Empleados (Nombre, Apodo, Cedula, Telefono, Rol, SalarioBase, PorcentajeComision, VentasMes) VALUES
 ('Rafael Martinez', 'El Cojo', '00112345678', '8095551234', 0, 25000, 15, 45000),
 ('Juan Perez', 'Juancho', '00176543210', '8295554321', 0, 20000, 10, 32000),
 ('Maria Garcia', NULL, '00198765432', '8495559876', 1, 18000, 0, 0);
+GO
 
 INSERT INTO Clientes (Nombre, Telefono, Tipo, Visitas) VALUES
 ('Pedro Sanchez', '8095551111', 2, 25),
 ('Luis Rodriguez', '8295552222', 1, 8),
 ('Ana Martinez', '8495553333', 0, 1);
+GO
 
 INSERT INTO Productos (Codigo, Nombre, Categoria, Precio, Costo, Stock, StockMinimo) VALUES
 ('GEL001', 'Gel Fijador Fuerte', 0, 150, 80, 25, 5),
 ('GEL002', 'Cera Moldeadora', 0, 200, 100, 3, 5),
 ('SHA001', 'Shampoo Anticaspa', 1, 180, 90, 15, 5),
 ('ACE001', 'Aceite para Barba', 2, 350, 180, 8, 3);
+GO
 
-PRINT 'Base de datos creada con datos de prueba';
+INSERT INTO Usuarios (Usuario, Contrasena, Rol) VALUES
+('admin', '1234', 0),
+('recepcion', '1234', 1),
+('barbero', '1234', 2);
+GO
+
+-- ═══════════════════════════════════════════════
+-- VERIFICACION
+-- ═══════════════════════════════════════════════
+
+SELECT 'Clientes'  AS Tabla, COUNT(*) AS Total FROM Clientes
+UNION ALL
+SELECT 'Empleados', COUNT(*) FROM Empleados
+UNION ALL
+SELECT 'Productos', COUNT(*) FROM Productos
+UNION ALL
+SELECT 'Servicios', COUNT(*) FROM Servicios
+UNION ALL
+SELECT 'Usuarios',  COUNT(*) FROM Usuarios;
+
+PRINT 'Base de datos PeluqueriaElCojo creada correctamente';
