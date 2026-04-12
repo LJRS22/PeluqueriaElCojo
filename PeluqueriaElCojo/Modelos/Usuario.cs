@@ -16,7 +16,7 @@
         public string Contrasena { get; set; }
         public RolSistema Rol { get; set; }
         public bool Activo { get; set; }
-
+        //Agrego Login, privilegios por rol, Backup del sistema y actualizo base de datos con tabla Usuarios
         public override string ToString()
         {
             return string.Format("{0} ({1})", NombreUsuario, Rol);
