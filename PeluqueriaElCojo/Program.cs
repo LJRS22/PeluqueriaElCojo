@@ -10,7 +10,14 @@ namespace PeluqueriaElCojo
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+
+            // Mostramos el login antes del menu principal
+            FormLogin login = new FormLogin();
+            if (login.ShowDialog() == DialogResult.OK)
+            {
+                // Si el login fue exitoso abrimos el menu principal
+                Application.Run(new Form1());
+            }
         }
     }
 }

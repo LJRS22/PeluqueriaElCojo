@@ -8,12 +8,10 @@ namespace PeluqueriaElCojo
 {
     public partial class Form1 : Form
     {
-        // Listas estaticas compartidas entre todos los formularios
         public static List<Cliente> Clientes = new List<Cliente>();
         public static List<Empleado> Empleados = new List<Empleado>();
         public static List<Producto> Productos = new List<Producto>();
 
-        // Repositorios para acceder a la base de datos
         private static ClienteRepository _clienteRepo = new ClienteRepository();
         private static EmpleadoRepository _empleadoRepo = new EmpleadoRepository();
         private static ProductoRepository _productoRepo = new ProductoRepository();
@@ -23,24 +21,65 @@ namespace PeluqueriaElCojo
             InitializeComponent();
             ProbarConexion();
             CargarDatosDesdeDB();
+
+            if (FormLogin.UsuarioActual != null)
+            {
+                this.Text = string.Format("Peluqueria El Cojo - {0} ({1})",
+                    FormLogin.UsuarioActual.NombreUsuario,
+                    FormLogin.UsuarioActual.Rol);
+            }
+
+            AplicarPrivilegios();
         }
 
-        // Verifica que la conexion a SQL Server funcione al arrancar
+        private void AplicarPrivilegios()
+        {
+            if (FormLogin.UsuarioActual == null) return;
+
+            switch (FormLogin.UsuarioActual.Rol)
+            {
+                case RolSistema.Administrador:
+                    btnClientes.Enabled = true;
+                    btnEmpleados.Enabled = true;
+                    btnInventario.Enabled = true;
+                    btnFacturacion.Enabled = true;
+                    btnBackup.Enabled = true;
+                    break;
+
+                case RolSistema.Recepcionista:
+                    btnClientes.Enabled = true;
+                    btnEmpleados.Enabled = false;
+                    btnInventario.Enabled = true;
+                    btnFacturacion.Enabled = true;
+                    btnBackup.Enabled = false;
+                    btnEmpleados.Text = "Empleados (Sin acceso)";
+                    btnBackup.Text = "Backup (Sin acceso)";
+                    break;
+
+                case RolSistema.Barbero:
+                    btnClientes.Enabled = true;
+                    btnEmpleados.Enabled = false;
+                    btnInventario.Enabled = false;
+                    btnFacturacion.Enabled = true;
+                    btnBackup.Enabled = false;
+                    btnEmpleados.Text = "Empleados (Sin acceso)";
+                    btnInventario.Text = "Inventario (Sin acceso)";
+                    btnBackup.Text = "Backup (Sin acceso)";
+                    break;
+            }
+        }
+
         private void ProbarConexion()
         {
             string mensaje;
             if (!Conexion.ProbarConexion(out mensaje))
             {
                 MessageBox.Show(
-                    "No se pudo conectar a la base de datos.\n\n" + mensaje +
-                    "\n\nVerifica que SQL Server este corriendo.",
-                    "Error de conexion",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                    "No se pudo conectar a la base de datos.\n\n" + mensaje,
+                    "Error de conexion", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        // Carga todos los datos desde SQL Server al iniciar
         public static void CargarDatosDesdeDB()
         {
             try
@@ -56,7 +95,6 @@ namespace PeluqueriaElCojo
             }
         }
 
-        // Guarda un cliente nuevo en BD y recarga las listas
         public static int GuardarCliente(Cliente c)
         {
             int id = _clienteRepo.Insertar(c);
@@ -64,7 +102,6 @@ namespace PeluqueriaElCojo
             return id;
         }
 
-        // Actualiza los datos de un cliente existente en BD
         public static bool ActualizarCliente(Cliente c)
         {
             bool ok = _clienteRepo.Actualizar(c);
@@ -72,7 +109,6 @@ namespace PeluqueriaElCojo
             return ok;
         }
 
-        // Guarda un empleado nuevo en BD y recarga las listas
         public static int GuardarEmpleado(Empleado e)
         {
             int id = _empleadoRepo.Insertar(e);
@@ -80,7 +116,6 @@ namespace PeluqueriaElCojo
             return id;
         }
 
-        // Suma el monto de ventas al barbero en BD
         public static bool ActualizarVentasEmpleado(int empleadoId, decimal monto)
         {
             bool ok = _empleadoRepo.ActualizarVentas(empleadoId, monto);
@@ -88,7 +123,6 @@ namespace PeluqueriaElCojo
             return ok;
         }
 
-        // Guarda un producto nuevo en BD y recarga las listas
         public static int GuardarProducto(Producto p)
         {
             int id = _productoRepo.Insertar(p);
@@ -96,13 +130,11 @@ namespace PeluqueriaElCojo
             return id;
         }
 
-        // Verifica si ya existe un producto con ese codigo en BD
         public static bool ExisteCodigoProducto(string codigo)
         {
             return _productoRepo.ExisteCodigo(codigo);
         }
 
-        // Botones del menu principal
         private void btnClientes_Click(object sender, EventArgs e)
         {
             FormClientes f = new FormClientes();
@@ -111,12 +143,24 @@ namespace PeluqueriaElCojo
 
         private void btnEmpleados_Click(object sender, EventArgs e)
         {
+            if (FormLogin.UsuarioActual.Rol != RolSistema.Administrador)
+            {
+                MessageBox.Show("Solo el Administrador puede gestionar empleados.",
+                    "Acceso denegado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             FormEmpleados f = new FormEmpleados();
             f.ShowDialog();
         }
 
         private void btnInventario_Click(object sender, EventArgs e)
         {
+            if (FormLogin.UsuarioActual.Rol == RolSistema.Barbero)
+            {
+                MessageBox.Show("Solo Administrador y Recepcionista pueden ver el inventario.",
+                    "Acceso denegado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             FormInventario f = new FormInventario();
             f.ShowDialog();
         }
@@ -124,6 +168,18 @@ namespace PeluqueriaElCojo
         private void btnFacturacion_Click(object sender, EventArgs e)
         {
             FormFacturacion f = new FormFacturacion();
+            f.ShowDialog();
+        }
+
+        private void btnBackup_Click(object sender, EventArgs e)
+        {
+            if (FormLogin.UsuarioActual.Rol != RolSistema.Administrador)
+            {
+                MessageBox.Show("Solo el Administrador puede generar backups.",
+                    "Acceso denegado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            FormBackup f = new FormBackup();
             f.ShowDialog();
         }
     }
